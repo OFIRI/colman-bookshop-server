@@ -1,0 +1,23 @@
+{
+  "name": "colman-bookshop-server",
+  "version": "1.0.0",
+  "description": "This is the server side of our web apps course's final project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OFIRI/colman-bookshop-server.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OFIRI/colman-bookshop-server/issues"
+  },
+  "homepage": "https://github.com/OFIRI/colman-bookshop-server#readme",
+  "dependencies": {
+    "express": "^4.18.1"
+  }
+}
