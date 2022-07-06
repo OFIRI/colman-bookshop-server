@@ -1,20 +1,33 @@
-// grab the main Express module from the Express.js package
-// this module is a function 
-const express = require('express'); 
-
-// we run the function to create our app variable
-// it gives us an option to create multiple apps this way, each with it's own requests and responses
+import express from 'express'; 
 const app = express();
+import cors from 'cors';
+import bodyParser from 'body-parser';
+import mongoose from 'mongoose';
+import { database } from './config/db.js';
+
+// middleware for cors. enable *All* CORS Requests
+app.use(cors());
+
+// middleare for bodyparsing using url encoding and json
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
+
+// connect to mongodb using mongoose
+mongoose.connect(database, { useNewUrlParser: true});
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error: "));
+db.once("open", function () {
+  console.log("Connected successfully");
+});
 
 // tell our Express server how to handle a GET request
-// the function takes two main parameters: 
-// 1) URL (in this case, we are targeting '/' which is the root of our website)
-// 2) a function with two args: req, res.
-//      req - represents the request that was sent to the server
-//      res - represents the response that we'll send back to the client
+// will change to routes later
 app.get('/', (req, res) => {
     res.send('Successful response.')
 });
 
-// we are passing 3000 into the listen function, which tells the app which port to listen on
-app.listen(3000, () => console.log('Example app is listening in port 3000.'));
+// Decalre port
+const PORT = 3000;
+
+// we are passing the port into the listen function, which tells the app which port to listen on
+app.listen(PORT, () => console.log(`Server ready to listen at port ${PORT}`));
