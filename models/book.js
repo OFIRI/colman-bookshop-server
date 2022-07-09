@@ -2,11 +2,11 @@ import { Schema } from "mongoose";
 
 const bookSchema = Schema({
     _id: { type: String, required: true },
-    title: { type: String },
+    title: { type: String, required: true },
     description: { type: String },
-    price: { type: Number },
-    author: { type: String },
-    inventory: { type: Number },
+    price: { type: Number, required: true },
+    author: { type: String, required: true },
+    inventory: { type: Number, required: true },
 });
 
 const books = module.export = mongoose.model("book", bookSchema);
