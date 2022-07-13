@@ -1,4 +1,5 @@
-import { Schema } from "mongoose";
+import mongoose from 'mongoose';
+const { Schema } = mongoose;
 
 const bookSchema = new Schema({
     _id: { type: String, required: true },
@@ -9,30 +10,30 @@ const bookSchema = new Schema({
     inventory: { type: Number, required: true },
 });
 
-const Book = module.export = mongoose.model("book", bookSchema);
+const Book = module.exports = mongoose.model("book", bookSchema);
 
 // get all books
-module.export.getAllBooks = (callback) => {
+module.exports.getAllBooks = (callback) => {
     Book.find().exec(callback);
 };
 
 // get book by id
-module.export.getBookById = (id, callback) => {
+module.exports.getBookById = (id, callback) => {
     let query = { _id: id };
     return (Book.findOne(query).populate("books").exec(callback));
 };
 
 // create book
-module.export.createBook = (newBook, callback) => {
+module.exports.createBook = (newBook, callback) => {
     Book.save(newBook).exec(callback);
 };
 
 // update book by book id
-module.export.updateBook = (updatedBook, callback) => {
+module.exports.updateBook = (updatedBook, callback) => {
     Book.save(updatedBook).exec(callback);
 };
 
 // delete book by book id
-module.export.deleteBook = (bookId, callback) => {
+module.exports.deleteBook = (bookId, callback) => {
     Book.deleteOne({ _id:bookId }).exec(callback);
 };

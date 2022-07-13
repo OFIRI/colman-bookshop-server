@@ -4,6 +4,7 @@ import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
 import { database } from './config/db.js';
+import books from './controllers/books.js';
 
 // middleware for cors. enable *All* CORS Requests
 app.use(cors());
@@ -25,6 +26,9 @@ db.once("open", function () {
 app.get('/', (req, res) => {
     res.send('Successful response.')
 });
+
+// declare routes
+app.use('/books', books);
 
 // Decalre port
 const PORT = 3000;

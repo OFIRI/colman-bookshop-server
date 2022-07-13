@@ -1,1 +1,1 @@
-export const database = '';
+export const database = 'mongodb://localhost:27020/bookshop_db';
