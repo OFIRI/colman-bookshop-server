@@ -10,30 +10,30 @@ const bookSchema = new Schema({
     inventory: { type: Number, required: true },
 });
 
-const Book = module.exports = mongoose.model("book", bookSchema);
+export const Book = mongoose.model("book", bookSchema);
 
 // get all books
-module.exports.getAllBooks = (callback) => {
+export const getAllBooks = (callback) => {
     Book.find().exec(callback);
 };
 
 // get book by id
-module.exports.getBookById = (id, callback) => {
+export const getBookById = (id, callback) => {
     let query = { _id: id };
     return (Book.findOne(query).populate("books").exec(callback));
 };
 
 // create book
-module.exports.createBook = (newBook, callback) => {
+export const createBook = (newBook, callback) => {
     Book.save(newBook).exec(callback);
 };
 
 // update book by book id
-module.exports.updateBook = (updatedBook, callback) => {
+export const updateBook = (updatedBook, callback) => {
     Book.save(updatedBook).exec(callback);
 };
 
 // delete book by book id
-module.exports.deleteBook = (bookId, callback) => {
+export const deleteBook = (bookId, callback) => {
     Book.deleteOne({ _id:bookId }).exec(callback);
 };
