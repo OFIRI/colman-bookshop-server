@@ -2,6 +2,8 @@ import express from 'express';
 const app = express();
 import cors from 'cors';
 import bodyParser from 'body-parser';
+import http from 'http';
+import { Server } from 'socket.io';
 import mongoose from 'mongoose';
 import { database } from './config/db.js';
 import books from './controllers/books.js';
@@ -27,6 +29,8 @@ app.use('/users', users);
 app.use('/books', books);
 
 // add a websocket connection
+const server = http.createServer(app);
+const io = new Server(server);
 io.on('connection', socket => {
   console.log('user connected');
   socket.on('sendUser', (id)=> {
@@ -54,4 +58,4 @@ io.on('connection', socket => {
 const PORT = 3000;
 
 // we are passing the port into the listen function, which tells the app which port to listen on
-app.listen(PORT, () => console.log(`Server ready to listen at port ${PORT}`));
+server.listen(PORT, () => console.log(`Server ready to listen at port ${PORT}`));
