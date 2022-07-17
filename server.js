@@ -26,6 +26,30 @@ db.once("open", function () {
 app.use('/users', users);
 app.use('/books', books);
 
+// add a websocket connection
+io.on('connection', socket => {
+  console.log('user connected');
+  socket.on('sendUser', (id)=> {
+    clients.push({
+      id: id,
+      "socket": socket.id
+    });
+    console.log(clients);
+  });
+  
+  socket.on('disconnect', function(){
+    var index = clients.find((client, i) => {
+      if (client.socket == socket.id) {
+        return i;
+      }
+    });
+
+    clients.splice(index, 1);
+    console.log(clients);
+    console.log('user disconnected');
+  });
+});
+
 // Decalre port
 const PORT = 3000;
 
