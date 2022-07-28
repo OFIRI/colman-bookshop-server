@@ -8,9 +8,8 @@ router.get('/', (req, res) => {
         if (err) return res.json(400, {
             message: `Failed to load all books. Error: ${err}`
          });
+        res.send('not implemented yet');
     });
-
-    res.send('not implemented yet');
 });
 
 export default router;

@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
         if (err) return res.json(400, {
             message: `Failed to load all users. Error: ${err}`
          });
-
         res.send('not implemented yet');
     });
 });

@@ -13,27 +13,29 @@ const bookSchema = new Schema({
 export const Book = mongoose.model("book", bookSchema);
 
 // get all books
-export const getAllBooks = (callback) => {
-    Book.find().exec(callback);
+Book.getAllBooks = (callback) => {
+    console.log('im in get all books inside model');
+    callback();
+    //Book.find().exec(callback);
 };
 
 // get book by id
-export const getBookById = (id, callback) => {
+Book.getBookById = (id, callback) => {
     let query = { _id: id };
     return (Book.findOne(query).populate("books").exec(callback));
 };
 
 // create book
-export const createBook = (newBook, callback) => {
+Book.createBook = (newBook, callback) => {
     Book.save(newBook).exec(callback);
 };
 
 // update book by book id
-export const updateBook = (updatedBook, callback) => {
+Book.updateBook = (updatedBook, callback) => {
     Book.save(updatedBook).exec(callback);
 };
 
 // delete book by book id
-export const deleteBook = (bookId, callback) => {
+Book.deleteBook = (bookId, callback) => {
     Book.deleteOne({ _id:bookId }).exec(callback);
 };
