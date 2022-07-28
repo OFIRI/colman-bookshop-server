@@ -8,6 +8,7 @@ import mongoose from 'mongoose';
 import { database } from './config/db.js';
 import books from './controllers/books.js';
 import users from './controllers/users.js';
+import shops from './controllers/shops.js';
 
 // middleware for cors. enable *All* CORS Requests
 app.use(cors());
@@ -27,6 +28,7 @@ db.once("open", function () {
 // declare routes
 app.use('/users', users);
 app.use('/books', books);
+app.use('/shops', shops);
 
 // add a websocket connection
 const server = http.createServer(app);
