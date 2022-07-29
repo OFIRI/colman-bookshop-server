@@ -7,6 +7,7 @@ import { Server } from "socket.io";
 import mongoose from "mongoose";
 import { database } from "./config/db.js";
 import init_shops from "./middlewares/init_db/init_shops.js";
+import init_users from "./middlewares/init_db/init_users.js";
 import books from "./controllers/books.js";
 import users from "./controllers/users.js";
 import shops from "./controllers/shops.js";
@@ -28,6 +29,7 @@ db.once("open", function () {
 
 // init db with starter data
 init_shops();
+init_users();
 
 // declare routes
 app.use("/users", users);
