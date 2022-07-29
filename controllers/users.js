@@ -4,11 +4,11 @@ import { User } from '../models/user.js';
 
 // http get for /users/
 router.get('/', (req, res) => {
-    User.getAllUsers((err) => {
+    User.getAllUsers((err, users) => {
         if (err) return res.json(400, {
             message: `Failed to load all users. Error: ${err}`
          });
-        res.send('not implemented yet');
+        res.send(users);
     });
 });
 

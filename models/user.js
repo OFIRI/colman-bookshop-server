@@ -12,8 +12,7 @@ export const User = mongoose.model("user", userSchema);
 
 // get all users
 User.getAllUsers = (callback) => {
-    callback();
-    // User.find().exec(callback);
+    User.find().exec(callback);
 };
 
 // get user by id

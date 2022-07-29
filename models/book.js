@@ -14,9 +14,7 @@ export const Book = mongoose.model("book", bookSchema);
 
 // get all books
 Book.getAllBooks = (callback) => {
-    console.log('im in get all books inside model');
-    callback();
-    //Book.find().exec(callback);
+    Book.find().exec(callback);
 };
 
 // get book by id
