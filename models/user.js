@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    _id: { type: String, required: true },
     username: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     is_admin: { type: Number, required: true },
@@ -15,15 +14,16 @@ User.getAllUsers = (callback) => {
     User.find().exec(callback);
 };
 
-// get user by id
-User.getUserById = (id, callback) => {
-    let query = { _id: id };
-    return (User.findOne(query).populate("users").exec(callback));
+// get user by username and password
+User.signIn = (username, password, callback) => {
+    let query = { username: username, password: password };
+    return (User.findOne(query).exec(callback));
 };
 
 // create user
 User.createUser = (newUser, callback) => {
-    User.save(newUser).exec(callback);
+    let user = new User(newUser);
+    user.save(callback);
 };
 
 // update user by User id

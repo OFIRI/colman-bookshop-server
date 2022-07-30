@@ -2,7 +2,6 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const shopSchema = new Schema({
-  _id: { type: String, required: true },
   location: {
     city: { type: String },
     street: { type: String },

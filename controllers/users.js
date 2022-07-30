@@ -12,14 +12,31 @@ router.get('/', (req, res) => {
     });
 });
 
-// http get for /users/:id
-router.get('/:id', (req, res) => {
-    User.getUserById((err) => {
+// http get for /users/:username/:password
+router.get('/:username/:password', (req, res) => {
+    User.signIn(req.params.username, req.params.password, (err, user) => {
         if (err) return res.json(400, {
             message: `Failed to load user. Error: ${err}`
          });
 
-        res.send('not implemented yet');
+        res.send(user);
+    });
+});
+
+// http post for /users/
+router.post('/', (req, res) => {
+    let newUser =  new User({
+        username: req.body.username,
+        password: req.body.password,
+        is_admin: req.body.is_admin
+    });
+
+    User.createUser(newUser, (err, user) => {
+        if (err) return res.status(400).json({
+            message: `Failed to create user. Error: ${err}`
+         });
+
+        res.send(user);
     });
 });
 

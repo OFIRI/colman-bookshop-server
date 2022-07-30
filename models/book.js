@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 const { Schema } = mongoose;
 
 const bookSchema = new Schema({
-    _id: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String },
     price: { type: Number, required: true },
