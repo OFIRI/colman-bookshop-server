@@ -40,4 +40,37 @@ router.post('/', (req, res) => {
     });
 });
 
+// http put for /users/:id
+router.put('/:id', (req, res) => {
+    User.getUserById(req.params.id, (err, oldUser) => {
+        if (err) return res.json(400, {
+            message: `Failed to load all users. Error: ${err}`
+         });
+        let updatedUser = {
+            username: req.body.username || oldUser.username,
+            password: req.body.password || oldUser.password,
+            is_admin: req.body.is_admin || oldUser.is_admin
+        };
+    
+        User.updateUser(req.params.id, updatedUser, (err, user) => {
+            if (err) return res.status(400).json({
+                message: `Failed to create user. Error: ${err}`
+             });
+    
+            res.send(user);
+        });
+    });
+});
+
+// http delete for /users/:id
+router.delete('/:id', (req, res) => {
+    User.deleteUser(req.params.id, (err, data) => {
+        if (err) return res.json(400, {
+            message: `Failed to load user. Error: ${err}`
+         });
+
+         res.json({ success: true, message: `Item deleted successfuly` });
+    });
+});
+
 export default router;
