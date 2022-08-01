@@ -31,7 +31,7 @@ User.createUser = (newUser, callback) => {
     user.save(callback);
 };
 
-// update user by User id
+// update user by user id
 User.updateUser = (userId, updatedUser, callback) => {
     User.findOneAndUpdate(userId, updatedUser).exec(callback);
 };

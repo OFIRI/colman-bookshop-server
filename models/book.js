@@ -18,21 +18,21 @@ Book.getAllBooks = (callback) => {
 
 // get book by id
 Book.getBookById = (id, callback) => {
-    let query = { _id: id };
-    return (Book.findOne(query).populate("books").exec(callback));
+    Book.findOne({ _id: id }).exec(callback);
 };
 
 // create book
 Book.createBook = (newBook, callback) => {
-    Book.save(newBook).exec(callback);
+    let book = new Book(newBook);
+    book.save(callback);
 };
 
 // update book by book id
-Book.updateBook = (updatedBook, callback) => {
-    Book.save(updatedBook).exec(callback);
+Book.updateBook = (bookId, updatedBook, callback) => {
+    Book.findOneAndUpdate(bookId, updatedBook).exec(callback);
 };
 
 // delete book by book id
 Book.deleteBook = (bookId, callback) => {
-    Book.deleteOne({ _id:bookId }).exec(callback);
+    Book.findOneAndDelete({ _id:bookId }).exec(callback);
 };

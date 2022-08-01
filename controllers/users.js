@@ -25,11 +25,11 @@ router.get('/:username/:password', (req, res) => {
 
 // http post for /users/
 router.post('/', (req, res) => {
-    let newUser =  new User({
+    let newUser =  {
         username: req.body.username,
         password: req.body.password,
         is_admin: req.body.is_admin
-    });
+    };
 
     User.createUser(newUser, (err, user) => {
         if (err) return res.status(400).json({
@@ -44,7 +44,7 @@ router.post('/', (req, res) => {
 router.put('/:id', (req, res) => {
     User.getUserById(req.params.id, (err, oldUser) => {
         if (err) return res.json(400, {
-            message: `Failed to load all users. Error: ${err}`
+            message: `Failed to find user. Error: ${err}`
          });
         let updatedUser = {
             username: req.body.username || oldUser.username,
@@ -54,7 +54,7 @@ router.put('/:id', (req, res) => {
     
         User.updateUser(req.params.id, updatedUser, (err, user) => {
             if (err) return res.status(400).json({
-                message: `Failed to create user. Error: ${err}`
+                message: `Failed to update user. Error: ${err}`
              });
     
             res.send(user);
@@ -64,12 +64,12 @@ router.put('/:id', (req, res) => {
 
 // http delete for /users/:id
 router.delete('/:id', (req, res) => {
-    User.deleteUser(req.params.id, (err, data) => {
+    User.deleteUser(req.params.id, (err) => {
         if (err) return res.json(400, {
-            message: `Failed to load user. Error: ${err}`
+            message: `Failed to delete user. Error: ${err}`
          });
 
-         res.json({ success: true, message: `Item deleted successfuly` });
+         res.json({ success: true, message: `User deleted successfuly` });
     });
 });
 
