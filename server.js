@@ -11,6 +11,7 @@ import init_users from "./middlewares/init_db/init_users.js";
 import books from "./controllers/books.js";
 import users from "./controllers/users.js";
 import shops from "./controllers/shops.js";
+import scrapper from "./middlewares/init_db/scrapper.js";
 
 // middleware for cors. enable *All* CORS Requests
 app.use(cors());
@@ -30,6 +31,7 @@ db.once("open", function () {
 // init db with starter data
 init_shops();
 init_users();
+scrapper();
 
 // declare routes
 app.use("/users", users);
