@@ -65,7 +65,7 @@ io.on("connection", (socket) => {
 });
 
 // Decalring port
-const PORT = 3000;
+const PORT = 5000;
 
 // we are passing the port into listen, which tells the app which port to listen on
 server.listen(PORT, () =>

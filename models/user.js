@@ -5,6 +5,8 @@ const userSchema = new Schema({
     username: { type: String, required: true },
     password: { type: String, required: true },
     is_admin: { type: Number, required: true },
+    first_name: { type: String },
+    last_name: { type: String },
 });
 
 export const User = mongoose.model("user", userSchema);
@@ -26,10 +28,12 @@ User.signIn = (username, password, callback) => {
 };
 
 // create user
-User.createUser = (newUser, callback) => {
-    let user = new User(newUser);
-    user.save(callback);
-};
+// User.createUser = async (newUser, callback) => {
+//     const exist = await User.exists({username});
+//     if(!exist) return;
+//     let user = new User(newUser);
+//     user.save(callback);
+// };
 
 // update user by user id
 User.updateUser = (userId, updatedUser, callback) => {

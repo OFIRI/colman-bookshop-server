@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import authorize from '../middlewares/auth.js';
+import jwt from 'jsonwebtoken'
 const router = Router();
 import { User } from '../models/user.js';
 
@@ -12,32 +14,55 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/getUser/:id', async (req, res) => {
+    const { id } = req.params;
+    const user = await User.findById(id);
+    res.send(user);
+});
+
 // http get for /users/:username/:password
-router.get('/:username/:password', (req, res) => {
-    User.signIn(req.params.username, req.params.password, (err, user) => {
+router.post('/sign-in', (req, res) => {
+    const { username, password } = req.body;
+    User.signIn(username, password, (err, user) => {
         if (err) return res.json(400, {
             message: `Failed to load user. Error: ${err}`
-         });
+        });
 
-        res.send(user);
+        const token = jwt.sign({userId: user.id}, "myprivatekey");
+
+        res.send({token, user});
     });
 });
 
 // http post for /users/
-router.post('/', (req, res) => {
+router.post('/register', async (req, res) => {
     let newUser =  {
         username: req.body.username,
         password: req.body.password,
-        is_admin: req.body.is_admin
+        is_admin: req.body.is_admin,
+        first_name: req.body.first_name,
+        last_name: req.body.last_name
     };
 
-    User.createUser(newUser, (err, user) => {
-        if (err) return res.status(400).json({
-            message: `Failed to create user. Error: ${err}`
-         });
+    const exist = await User.findOne({username: newUser.username});
+    if(exist) return;
+    let user = new User(newUser);
+    const saved = await user.save();
 
-        res.send(user);
-    });
+    const token = jwt.sign({userId: user.id}, "myprivatekey");
+
+    res.send({token, user: saved.toJSON()});
+
+    // User.createUser(newUser, async (err, user) => {
+    //     if (err) return res.status(400).json({
+    //         message: `Failed to create user. Error: ${err}`
+    //      });
+
+    //     const token = jwt.sign({userId: user.id}, "myprivatekey");
+
+    //     res.send({token, user});
+
+    // });
 });
 
 // http put for /users/:id
