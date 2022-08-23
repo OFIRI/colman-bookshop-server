@@ -36,8 +36,13 @@ User.signIn = (username, password, callback) => {
 // };
 
 // update user by user id
-User.updateUser = (userId, updatedUser, callback) => {
-    User.findOneAndUpdate(userId, updatedUser).exec(callback);
+User.updateUser = async (user) => {
+    const doc = await User.findById(user.id);
+    doc.first_name = user.first_name;
+    doc.last_name = user.last_name;
+    doc.username = user.username;
+    doc.is_admin = user.is_admin ? 1 : 0;
+    await doc.save();
 };
 
 // delete user by user id

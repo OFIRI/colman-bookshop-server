@@ -21,6 +21,11 @@ Book.getBookById = (id, callback) => {
     Book.findOne({ _id: id }).exec(callback);
 };
 
+Book.getBookByIdAsync = async (id) => {
+    const book = await Book.findById(id);
+    return book.toJSON()
+};
+
 // create book
 Book.createBook = (newBook, callback) => {
     let book = new Book(newBook);

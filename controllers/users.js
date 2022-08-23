@@ -65,25 +65,32 @@ router.post('/register', async (req, res) => {
 });
 
 // http put for /users/:id
-router.put('/:id', (req, res) => {
-    User.getUserById(req.params.id, (err, oldUser) => {
-        if (err) return res.json(400, {
-            message: `Failed to find user. Error: ${err}`
-         });
-        let updatedUser = {
-            username: req.body.username || oldUser.username,
-            password: req.body.password || oldUser.password,
-            is_admin: req.body.is_admin || oldUser.is_admin
-        };
+router.put('/', (req, res) => {
+    // User.getUserById(req.params.id, (err, oldUser) => {
+    //     if (err) return res.json(400, {
+    //         message: `Failed to find user. Error: ${err}`
+    //      });
+    //     let updatedUser = {
+    //         username: req.body.username || oldUser.username,
+    //         password: req.body.password || oldUser.password,
+    //         is_admin: req.body.is_admin || oldUser.is_admin
+    //     };
     
-        User.updateUser(req.params.id, updatedUser, (err, user) => {
-            if (err) return res.status(400).json({
-                message: `Failed to update user. Error: ${err}`
-             });
+    //     User.updateUser(req.params.id, updatedUser, (err, user) => {
+    //         if (err) return res.status(400).json({
+    //             message: `Failed to update user. Error: ${err}`
+    //          });
     
-            res.send(user);
-        });
-    });
+    //         res.send(user);
+    //     });
+    // });
+    const user = req.body;
+    try {
+        User.updateUser(user);
+        res.send("ok")
+    } catch (error) {
+        res.status(500).send(e.message);
+    }
 });
 
 // http delete for /users/:id
