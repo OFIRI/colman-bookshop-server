@@ -106,4 +106,24 @@ router.get('/search/:string', (req, res) => {
     });
 });
 
+router.get('/search', async (req, res) => {
+    const {title, author, price} = req.query;
+    let t = new RegExp(title,'i');
+    let a = new RegExp(author,'i');
+    let p = new RegExp(price,'i');
+    const andArray = [];
+    if(title !== '') orArray.push({title: {"$regex": t}});
+    if(author !== '') orArray.push({author: {"$regex": a}});
+    if(price !== '') orArray.push({price: {"$regex": p}});
+    let books = null;
+    if(andArray.length > 0) {
+        books = await Book.find({
+            $and: andArray
+        });
+    } else {
+        books = await Book.find();
+    }
+    res.send(books);
+})
+
 export default router;
