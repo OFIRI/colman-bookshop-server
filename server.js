@@ -42,9 +42,14 @@ app.use("/shops", shops);
 app.use("/orders", orders);
 app.use("/cmSketch", cmSketch);
 
+const clients =[];
+
 // add a websocket connection
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, { cors:{
+  origin:'*',
+  credentials:true
+}});
 io.on("connection", (socket) => {
   console.log("user connected");
   socket.on("sendUser", (id) => {
@@ -55,7 +60,7 @@ io.on("connection", (socket) => {
     console.log(clients);
   });
 
-  socket.on("disconnect", function () {
+  socket.on("dc", function () {
     var index = clients.find((client, i) => {
       if (client.socket == socket.id) {
         return i;
