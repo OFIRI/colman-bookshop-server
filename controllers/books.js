@@ -86,4 +86,14 @@ router.get('/count/author', (req, res) => {
     });
 });
 
+// http get for /books/search/:string
+router.get('/search/:string', (req, res) => {
+    Book.searchByString(req.params.string, (err, books) => {
+        if (err) return res.json(400, {
+            message: `Failed to load search. Error: ${err}`
+         });
+        res.send(books);
+    });
+});
+
 export default router;
