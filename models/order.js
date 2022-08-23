@@ -2,21 +2,37 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const orderSchema = new Schema({
-    userId: {type: Schema.Types.ObjectId, ref: 'user'},
-    books: {type: [mongoose.Schema.Types.ObjectId], ref: 'book'},
+    user: {type: Schema.Types.ObjectId, ref: 'user'},
+    books: [
+        {
+            book: {type: mongoose.Schema.Types.ObjectId, ref: 'book'},
+            quantity: {type: Number}
+        }
+    ],
     price: {type: Number}
 });
 
 export const Order = mongoose.model("order", orderSchema);
 
-Order.createNewOrder = (books, userId, callback) => {
+Order.createNewOrder = async (books, userId) => {
     const order = new Order({
         books,
-        userId: userId
+        user: userId
     });
-    order.save(callback)
+    const savedOrder = await order.save();
+
+    return savedOrder.toJSON();
 }
 
-Order.getAllOrders = (callback) => {
-    Order.find().exec(callback);
+Order.getAllOrders = async () => {
+    const orders = await Order.find().populate("user").populate("books.book");
+    return orders;
 }
+
+Order.getUsersOrder = async (userId) => {
+    return await Order.find({userId});
+}
+
+Order.getOrderById = async (id) => {
+    return await Order.findById(id);
+} 

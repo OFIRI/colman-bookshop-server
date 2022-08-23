@@ -3,12 +3,12 @@ import jwt from "jsonwebtoken";
 const authorize = (req, res, next) => {
   const bearer = req.headers.authorization;
 
-  const token = bearer.replace('Bearer','');
+  const token = bearer.replace('Bearer','').trim();
 
   if (!token) return res.status(403).send("please log in");
 
   try {
-    const decoded = jwt.verify(token, "mypublickey");
+    const decoded = jwt.verify(token, "myprivatekey");
 
     if (decoded) {
         res.locals.session = decoded;
