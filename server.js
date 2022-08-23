@@ -11,6 +11,7 @@ import init_users from "./middlewares/init_db/init_users.js";
 import books from "./controllers/books.js";
 import users from "./controllers/users.js";
 import shops from "./controllers/shops.js";
+import cmSketch from "./controllers/count_min_sketch.js";
 import scrapper from "./middlewares/init_db/scrapper.js";
 
 // middleware for cors. enable *All* CORS Requests
@@ -31,12 +32,13 @@ db.once("open", function () {
 // init db with starter data
 init_shops();
 init_users();
-scrapper();
+//scrapper();
 
 // declare routes
 app.use("/users", users);
 app.use("/books", books);
 app.use("/shops", shops);
+app.use("/cmSketch", cmSketch);
 
 // add a websocket connection
 const server = http.createServer(app);
