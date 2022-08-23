@@ -36,3 +36,17 @@ Book.updateBook = (bookId, updatedBook, callback) => {
 Book.deleteBook = (bookId, callback) => {
     Book.findOneAndDelete({ _id:bookId }).exec(callback);
 };
+
+// get total inventory
+Book.getBooksCountByAuthor = (callback) => {
+    Book.aggregate([
+        {
+        $group: {
+            // Each `_id` must be unique, so if there are multiple
+            // documents with the same author, MongoDB will increment `count`.
+            _id: '$author',
+            count: { $sum: 1 }
+        }
+        }
+    ]).exec(callback);
+}
