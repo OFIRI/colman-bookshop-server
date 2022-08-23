@@ -11,9 +11,9 @@ const bookSchema = new Schema({
 
 export const Book = mongoose.model("book", bookSchema);
 
-// get all books
-Book.getAllBooks = (callback) => {
-    Book.find().exec(callback);
+// get all books (search fields are optional)
+Book.getAllBooks = (fields, callback) => {
+    Book.find(fields).exec(callback);
 };
 
 // get book by id
