@@ -11,6 +11,8 @@ import init_users from "./middlewares/init_db/init_users.js";
 import books from "./controllers/books.js";
 import users from "./controllers/users.js";
 import shops from "./controllers/shops.js";
+import orders from "./controllers/orders.js";
+import cmSketch from "./controllers/count_min_sketch.js";
 import scrapper from "./middlewares/init_db/scrapper.js";
 
 // middleware for cors. enable *All* CORS Requests
