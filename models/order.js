@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { Book } from "./book.js";
 const { Schema } = mongoose;
 
 const orderSchema = new Schema({
@@ -14,10 +15,11 @@ const orderSchema = new Schema({
 
 export const Order = mongoose.model("order", orderSchema);
 
-Order.createNewOrder = async (books, userId) => {
+Order.createNewOrder = async (books, userId, price) => {
     const order = new Order({
         books,
-        user: userId
+        user: userId,
+        price: price
     });
     const savedOrder = await order.save();
 
@@ -35,4 +37,15 @@ Order.getUsersOrder = async (userId) => {
 
 Order.getOrderById = async (id) => {
     return await Order.findById(id);
+} 
+
+Order.updateOrder = async(order) => {
+    const doc = await Order.findById(order.id)
+    doc.price = order.price;
+    return await doc.save();
+}
+
+Order.deleteOrder = async(id) => {
+    const doc = await Order.deleteOne({_id: id});
+    return doc;
 }

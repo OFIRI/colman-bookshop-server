@@ -65,25 +65,32 @@ router.post('/register', async (req, res) => {
 });
 
 // http put for /users/:id
-router.put('/:id', (req, res) => {
-    User.getUserById(req.params.id, (err, oldUser) => {
-        if (err) return res.json(400, {
-            message: `Failed to find user. Error: ${err}`
-         });
-        let updatedUser = {
-            username: req.body.username || oldUser.username,
-            password: req.body.password || oldUser.password,
-            is_admin: req.body.is_admin || oldUser.is_admin
-        };
+router.put('/', (req, res) => {
+    // User.getUserById(req.params.id, (err, oldUser) => {
+    //     if (err) return res.json(400, {
+    //         message: `Failed to find user. Error: ${err}`
+    //      });
+    //     let updatedUser = {
+    //         username: req.body.username || oldUser.username,
+    //         password: req.body.password || oldUser.password,
+    //         is_admin: req.body.is_admin || oldUser.is_admin
+    //     };
     
-        User.updateUser(req.params.id, updatedUser, (err, user) => {
-            if (err) return res.status(400).json({
-                message: `Failed to update user. Error: ${err}`
-             });
+    //     User.updateUser(req.params.id, updatedUser, (err, user) => {
+    //         if (err) return res.status(400).json({
+    //             message: `Failed to update user. Error: ${err}`
+    //          });
     
-            res.send(user);
-        });
-    });
+    //         res.send(user);
+    //     });
+    // });
+    const user = req.body;
+    try {
+        User.updateUser(user);
+        res.send("ok")
+    } catch (error) {
+        res.status(500).send(e.message);
+    }
 });
 
 // http delete for /users/:id
@@ -96,5 +103,25 @@ router.delete('/:id', (req, res) => {
          res.json({ success: true, message: `User deleted successfuly` });
     });
 });
+
+router.get('/search', async (req, res) => {
+    const {username, first_name, last_name} = req.query;
+    let fn = new RegExp(first_name,'i');
+    let ln = new RegExp(last_name,'i');
+    let un = new RegExp(username,'i');
+    const orArray = [];
+    if(username !== '') orArray.push({username: {"$regex": un}});
+    if(first_name !== '') orArray.push({first_name: {"$regex": fn}});
+    if(last_name !== '') orArray.push({last_name: {"$regex": ln}});
+    let users = null;
+    if(orArray.length > 0) {
+        users = await User.find({
+            $and: orArray
+        });
+    } else {
+        users = await User.find();
+    }
+    res.send(users);
+})
 
 export default router;
