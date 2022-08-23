@@ -37,7 +37,7 @@ Book.deleteBook = (bookId, callback) => {
   Book.findOneAndDelete({ _id: bookId }).exec(callback);
 };
 
-// get total inventory
+// get amount of different books of each author
 Book.getBooksCountByAuthor = (callback) => {
   Book.aggregate([
     {
@@ -46,6 +46,18 @@ Book.getBooksCountByAuthor = (callback) => {
         // documents with the same author, MongoDB will increment `count`.
         _id: "$author",
         count: { $sum: 1 },
+      },
+    },
+  ]).exec(callback);
+};
+
+// get average on rpice group by author
+Book.getAveragePriceByAuthor = (callback) => {
+  Book.aggregate([
+    {
+      $group: {
+        _id: "$author",
+        avgPrice: { $avg: "$price" },
       },
     },
   ]).exec(callback);

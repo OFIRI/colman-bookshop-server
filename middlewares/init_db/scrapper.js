@@ -18,7 +18,9 @@ export default () => {
         .split("Click here to read more about")[0]
         .trim();
 
-      const book = { title, author, description, price: "10", inventory: "1" };
+      const price = Math.floor(Math.random() * (100 - 10) ) + 10;
+      const inventory = Math.floor(Math.random() * (10 - 1) ) + 1;
+      const book = { title, author, description, price: price, inventory: inventory};
       books.push(book);
     });
 

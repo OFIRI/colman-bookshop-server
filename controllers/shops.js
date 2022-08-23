@@ -50,8 +50,6 @@ router.put('/:id', (req, res) => {
         if (err) return res.json(400, {
             message: `Failed to find shop. Error: ${err}`
          });
-         console.log("oldShop")
-         console.log(oldShop)
         let updatedShop = {
             location: {
                 city: req.body.location?.city || oldShop.location?.city,
@@ -62,9 +60,6 @@ router.put('/:id', (req, res) => {
                 },
             },
         };
-
-        console.log("newShop")
-         console.log(updatedShop)
     
         Shop.updateShop(req.params.id, updatedShop, (err, shop) => {
             if (err) return res.status(400).json({

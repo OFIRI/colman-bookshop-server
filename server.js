@@ -33,7 +33,7 @@ db.once("open", function () {
 // init db with starter data
 init_shops();
 init_users();
-//scrapper();
+// scrapper();
 
 // declare routes
 app.use("/users", users);
