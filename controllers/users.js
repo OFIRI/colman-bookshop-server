@@ -104,19 +104,19 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-router.get('/:username/:first_name/:last_name', async (req, res) => {
-    const {username, first_name, last_name} = req.params;
+router.get('/search', async (req, res) => {
+    const {username, first_name, last_name} = req.query;
     let fn = new RegExp(first_name,'i');
     let ln = new RegExp(last_name,'i');
     let un = new RegExp(username,'i');
     const orArray = [];
     if(username !== '') orArray.push({username: {"$regex": un}});
-    if(first_name !== '') orArray.push({last_name: {"$regex": ln}});
-    if(last_name !== '') orArray.push({first_name: {"$regex": fn}});
+    if(first_name !== '') orArray.push({first_name: {"$regex": fn}});
+    if(last_name !== '') orArray.push({last_name: {"$regex": ln}});
     let users = null;
     if(orArray.length > 0) {
         users = await User.find({
-            $or: orArray
+            $and: orArray
         });
     } else {
         users = await User.find();

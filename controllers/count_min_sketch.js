@@ -19,11 +19,12 @@ router.post("/init", async (req, res) => {
         });
       });
       render = true;
-      res.status(200).send(sketch.saveAsJSON());
+      return res.status(200).send(sketch.saveAsJSON());
     } catch (error) {
       return res.status(400).json({ message: error.toString() });
     }
   }
+  return res.send("ok")
 });
 router.get("/count/:id", (req, res) => {
   try {
