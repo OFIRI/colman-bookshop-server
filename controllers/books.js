@@ -76,4 +76,14 @@ router.delete('/:id', (req, res) => {
     });
 });
 
+// http get for /books/count/author
+router.get('/count/author', (req, res) => {
+    Book.getBooksCountByAuthor((err, books) => {
+        if (err) return res.json(400, {
+            message: `Failed to load count of books of author. Error: ${err}`
+         });
+        res.send(books);
+    });
+});
+
 export default router;
